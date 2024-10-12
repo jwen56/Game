@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>女帝家族树与好感度管理系统</title>
+    <title>女帝家族树与怀孕系统</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>女帝家族树与好感度管理系统</h1>
+        <h1>女帝家族树与怀孕系统</h1>
 
         <div class="info-container">
             <h2>当前年份：<span id="year">0</span></h2>
             <h2>已生育后代数：<span id="offspring">0</span></h2>
+            <h2>怀孕状态：<span id="pregnancyStatus">无</span></h2>
         </div>
 
         <div class="form-container">
@@ -21,14 +22,14 @@
             <div id="targets"></div>
         </div>
 
-        <div class="event-container">
-            <h2>年度随机事件</h2>
-            <p id="eventLog">每年都会发生不同事件……</p>
-        </div>
-
         <div class="children-container">
             <h2>子女管理系统</h2>
             <div id="childrenList">暂无子女</div>
+        </div>
+
+        <div class="event-container">
+            <h2>年度随机事件</h2>
+            <p id="eventLog">每年都会发生不同事件……</p>
         </div>
 
         <button class="next-year-btn" onclick="nextYear()">推进一年</button>
@@ -38,9 +39,11 @@
             <div id="familyTree"></div>
         </div>
 
-        <div class="resume-container">
-            <h2>人物履历与好感度</h2>
-            <div id="resumes"></div>
+        <div id="detailsModal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">×</span>
+                <div id="detailsContent"></div>
+            </div>
         </div>
     </div>
 
