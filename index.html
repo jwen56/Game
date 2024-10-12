@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>女帝家族树与好感度管理系统</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>女帝家族树与好感度管理系统</h1>
+
+        <div class="info-container">
+            <h2>当前年份：<span id="year">0</span></h2>
+            <h2>已生育后代数：<span id="offspring">0</span></h2>
+        </div>
+
+        <div class="form-container">
+            <h2>年度可攻略对象</h2>
+            <div id="targets"></div>
+        </div>
+
+        <div class="event-container">
+            <h2>年度随机事件</h2>
+            <p id="eventLog">每年都会发生不同事件……</p>
+        </div>
+
+        <div class="children-container">
+            <h2>子女管理系统</h2>
+            <div id="childrenList">暂无子女</div>
+        </div>
+
+        <button class="next-year-btn" onclick="nextYear()">推进一年</button>
+
+        <div class="family-tree-container">
+            <h2>家族树</h2>
+            <div id="familyTree"></div>
+        </div>
+
+        <div class="resume-container">
+            <h2>人物履历与好感度</h2>
+            <div id="resumes"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
