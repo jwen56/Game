@@ -1,127 +1,105 @@
-let year = 0;
-let offspringCount = 0;
-let familyTreeData = "graph TD\n  女帝[女帝]";
-let children = [];
-let characters = [];
-let pregnancy = null; // 记录怀孕状态
-
-const races = [
-    { name: "鸟族", bloodline: "风之翼" },
-    { name: "人族", bloodline: "王者之心" },
-    { name: "精灵族", bloodline: "自然之灵" },
-    { name: "龙族", bloodline: "龙焰之怒" },
-    { name: "兽族", bloodline: "荒野之力" },
-    { name: "海族", bloodline: "潮汐之子" },
-    { name: "影族", bloodline: "夜幕之影" }
-];
-
-function nextYear() {
-    year++;
-    document.getElementById("year").textContent = year;
-
-    if (pregnancy && pregnancy.dueYear === year) {
-        giveBirth(pregnancy);
-        pregnancy = null;
-        updatePregnancyStatus();
-    }
-
-    generateTargets();
-    renderChildren();
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-function generateTargets() {
-    const targetsContainer = document.getElementById("targets");
-    targetsContainer.innerHTML = "";
-
-    for (let i = 0; i < 3; i++) {
-        const target = generateCharacter();
-        const button = document.createElement("button");
-        button.textContent = `攻略 ${target.name} (${target.race})`;
-        button.onclick = () => attemptPregnancy(target);
-        targetsContainer.appendChild(button);
-    }
+body {
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
-function generateCharacter() {
-    const race = races[Math.floor(Math.random() * races.length)];
-    const name = `角色${Math.floor(Math.random() * 100)}`;
-    return { name, race: race.name, bloodline: race.bloodline };
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
 }
 
-function attemptPregnancy(target) {
-    if (pregnancy) {
-        alert("当前已有怀孕状态，请等待孩子出生后再尝试！");
-        return;
-    }
-
-    const success = Math.random() < 0.7; // 70% 成功率
-    if (success) {
-        pregnancy = { target, dueYear: year + 1 };
-        updatePregnancyStatus();
-        alert(`成功怀孕！孩子将在第 ${year + 1} 年出生。`);
-    } else {
-        alert("生育尝试失败，请来年再试。");
-    }
+.info-container, .form-container, .event-container, 
+.children-container, .family-tree-container, .resume-container {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-function giveBirth(pregnancy) {
-    offspringCount++;
-    document.getElementById("offspring").textContent = offspringCount;
-
-    const child = {
-        name: `子女${offspringCount}`,
-        race: pregnancy.target.race,
-        bloodline: pregnancy.target.bloodline,
-        parents: ["女帝", pregnancy.target.name]
-    };
-
-    children.push(child);
-    updateFamilyTree(child);
-    renderChildren();
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
 }
 
-function updatePregnancyStatus() {
-    const status = pregnancy ? `怀孕中，预产期：第 ${pregnancy.dueYear} 年` : "无";
-    document.getElementById("pregnancyStatus").textContent = status;
+button:hover {
+    background-color: #45a049;
 }
 
-function updateFamilyTree(child) {
-    familyTreeData += `\n  ${child.name}[${child.name} (${child.race})] --> 女帝`;
-    familyTreeData += `\n  ${child.name} --> ${pregnancy.target.name}`;
-    renderFamilyTree();
+#pregnancyStatus {
+    font-weight: bold;
+    color: #FF6347;
 }
 
-function renderFamilyTree() {
-    mermaid.render("familyTreeGraph", familyTreeData, (svgCode) => {
-        document.getElementById("familyTree").innerHTML = svgCode;
-    });
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
 }
 
-function renderChildren() {
-    const childrenList = document.getElementById("childrenList");
-    childrenList.innerHTML = "";
-
-    children.forEach((child) => {
-        const div = document.createElement("div");
-        div.textContent = `${child.name} (${child.race})`;
-        div.onclick = () => showDetails(child);
-        childrenList.appendChild(div);
-    });
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+    text-align: left;
+    position: relative;
 }
 
-function showDetails(character) {
-    const detailsContent = document.getElementById("detailsContent");
-    detailsContent.innerHTML = `
-        <h3>${character.name}</h3>
-        <p>种族：${character.race}</p>
-        <p>血脉：${character.bloodline}</p>
-        <p>父母：${character.parents.join(" 和 ")}</p>
-    `;
-    document.getElementById("detailsModal").classList.remove("hidden");
+.hidden {
+    display: none;
 }
 
-function closeModal() {
-    document.getElementById("detailsModal").classList.add("hidden");
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.2s ease;
 }
 
-nextYear();
+.close-btn:hover {
+    color: #FF6347;
+}
+
+#childrenList div {
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+#childrenList div:hover {
+    background-color: #e0e0e0;
+}
