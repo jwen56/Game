@@ -1,4 +1,3 @@
-/* 全局样式 */
 * {
     margin: 0;
     padding: 0;
@@ -31,7 +30,6 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 按钮样式 */
 button {
     background-color: #4CAF50;
     color: white;
@@ -47,13 +45,11 @@ button:hover {
     background-color: #45a049;
 }
 
-/* 怀孕状态样式 */
 #pregnancyStatus {
     font-weight: bold;
     color: #FF6347;
 }
 
-/* 弹窗模态框样式 */
 .modal {
     position: fixed;
     top: 0;
@@ -95,7 +91,6 @@ button:hover {
     color: #FF6347;
 }
 
-/* 子女列表 hover 效果 */
 #childrenList div {
     margin: 5px 0;
     padding: 10px;
