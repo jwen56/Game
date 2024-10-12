@@ -3,7 +3,7 @@ let offspringCount = 0;
 let familyTreeData = "graph TD\n  女帝[女帝]";
 let children = [];
 let characters = [];
-let pregnancy = null;
+let pregnancy = null; // 记录怀孕状态
 
 const races = [
     { name: "鸟族", bloodline: "风之翼" },
@@ -15,6 +15,7 @@ const races = [
     { name: "影族", bloodline: "夜幕之影" }
 ];
 
+// 玄幻小说风格的姓氏和名字库
 const familyNames = ["东方", "西门", "南宫", "北冥", "君", "慕", "夜", "凌", "凤", "墨", "苍", "玄", "云", "叶"];
 const givenNames = ["风", "霜", "羽", "月", "辰", "凡", "尘", "炎", "雪", "影", "天", "星", "灵", "夜", "渊", "幽", "曦", "澜", "锦", "璇"];
 
@@ -24,17 +25,18 @@ function nextYear() {
 
     if (pregnancy && pregnancy.dueYear === year) {
         giveBirth(pregnancy);
-        pregnancy = null;
+        pregnancy = null; // 重置怀孕状态
         updatePregnancyStatus();
     }
 
+    // 每年重新生成攻略对象
     generateTargets();
     renderChildren();
 }
 
 function generateTargets() {
     const targetsContainer = document.getElementById("targets");
-    targetsContainer.innerHTML = "";
+    targetsContainer.innerHTML = ""; // 每年清空并生成新对象
 
     for (let i = 0; i < 3; i++) {
         const target = generateCharacter();
@@ -51,6 +53,7 @@ function generateCharacter() {
     return { name, race: race.name, bloodline: race.bloodline };
 }
 
+// 随机生成玄幻风格的中文名字
 function generateChineseName() {
     const familyName = familyNames[Math.floor(Math.random() * familyNames.length)];
     const givenName = givenNames[Math.floor(Math.random() * givenNames.length)] + 
@@ -64,7 +67,7 @@ function attemptPregnancy(target) {
         return;
     }
 
-    const success = Math.random() < 0.7;
+    const success = Math.random() < 0.7; // 70% 成功率
     if (success) {
         pregnancy = { target, dueYear: year + 1 };
         updatePregnancyStatus();
@@ -103,4 +106,36 @@ function updateFamilyTree(child) {
 
 function renderFamilyTree() {
     mermaid.render("familyTreeGraph", familyTreeData, (svgCode) => {
-        document.getElementById("familyTree").innerHTML = svg
+        document.getElementById("familyTree").innerHTML = svgCode;
+    });
+}
+
+function renderChildren() {
+    const childrenList = document.getElementById("childrenList");
+    childrenList.innerHTML = "";
+
+    children.forEach((child) => {
+        const div = document.createElement("div");
+        div.textContent = `${child.name} (${child.race})`;
+        div.onclick = () => showDetails(child);
+        childrenList.appendChild(div);
+    });
+}
+
+function showDetails(character) {
+    const detailsContent = document.getElementById("detailsContent");
+    detailsContent.innerHTML = `
+        <h3>${character.name}</h3>
+        <p>种族：${character.race}</p>
+        <p>血脉：${character.bloodline}</p>
+        <p>父母：${character.parents.join(" 和 ")}</p>
+    `;
+    document.getElementById("detailsModal").classList.remove("hidden");
+}
+
+function closeModal() {
+    document.getElementById("detailsModal").classList.add("hidden");
+}
+
+// 初始化页面，开始游戏
+nextYear();
