@@ -3,46 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>女帝家族树与玄幻名字系统</title>
+    <title>女帝发家史</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>女帝家族树与玄幻名字系统</h1>
+        <h1>女帝发家史</h1>
 
-        <div class="info-container">
-            <h2>当前年份：<span id="year">0</span></h2>
+        <!-- 女帝信息设置表单 -->
+        <div class="form-container" id="nameForm">
+            <h2>设置女帝的名字与年号：</h2>
+            <input type="text" id="empressFamilyName" placeholder="请输入女帝的姓" />
+            <input type="text" id="empressGivenName" placeholder="请输入女帝的名" />
+            <input type="text" id="eraName" placeholder="请输入年号" />
+            <button onclick="setEmpressInfo()">确认信息</button>
+        </div>
+
+        <!-- 女帝信息与状态展示 -->
+        <div class="info-container" id="empressInfo" style="display:none;">
+            <h2>当前年份：<span id="year">0</span> (<span id="eraDisplay">未设置</span>)</h2>
+            <h2>女帝：<span id="empressDisplay">未设置</span></h2>
             <h2>已生育后代数：<span id="offspring">0</span></h2>
             <h2>怀孕状态：<span id="pregnancyStatus">无</span></h2>
         </div>
 
+        <!-- 年度可攻略对象 -->
         <div class="form-container">
             <h2>年度可攻略对象</h2>
-            <div id="targets"></div>
+            <div id="targets">暂无攻略对象</div>
         </div>
 
+        <!-- 子女管理系统 -->
         <div class="children-container">
             <h2>子女管理系统</h2>
             <div id="childrenList">暂无子女</div>
         </div>
 
-        <div class="event-container">
-            <h2>年度随机事件</h2>
-            <p id="eventLog">每年都会发生不同事件……</p>
+        <!-- 地点栏 -->
+        <div class="location-container">
+            <h2>地点</h2>
+            <div id="locations">
+                <button onclick="showLocation('皇宫')">皇宫</button>
+                <button onclick="showLocation('幻境森林')">幻境森林</button>
+                <button onclick="showLocation('龙之谷')">龙之谷</button>
+            </div>
         </div>
 
+        <!-- 年推进按钮 -->
         <button class="next-year-btn" onclick="nextYear()">推进一年</button>
 
-        <div class="family-tree-container">
-            <h2>家族树</h2>
-            <div id="familyTree"></div>
-        </div>
-
+        <!-- 详情弹窗 -->
         <div id="detailsModal" class="modal hidden">
             <div class="modal-content">
                 <span class="close-btn" onclick="closeModal()">×</span>
-                <div id="detailsContent"></div>
+                <div id="detailsContent">无详情内容</div>
+            </div>
+        </div>
+
+        <!-- 地点详情弹窗 -->
+        <div id="locationModal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeLocationModal()">×</span>
+                <div id="locationContent">无地点内容</div>
             </div>
         </div>
     </div>
